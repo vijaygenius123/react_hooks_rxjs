@@ -1,11 +1,13 @@
 import React from 'react';
 import './App.css';
 import {from} from 'rxjs'
-import { map } from 'rxjs/operators'
+import {delay, map, mergeMap} from 'rxjs/operators'
 
 
 let numberObservable = from([1, 2, 3, 4, 5]);
-let squaredNumbers = numberObservable.pipe(map(value => value * 2))
+let squaredNumbers = numberObservable.pipe(
+    mergeMap(val => from([val]).pipe(delay(1000 * val))),
+    map(value => value * 2))
 
 console.log(squaredNumbers)
 
