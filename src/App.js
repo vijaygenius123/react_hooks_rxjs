@@ -11,14 +11,31 @@ console.log(squaredNumbers)
 
 squaredNumbers.subscribe(result => console.log(result));
 
-function App() {
+class App extends React.Component{
 
+  constructor() {
+    super();
+    this.state = {
+      currentNumber : 0
+    }
+  }
 
-  return (
-    <div className="App">
+  componentDidMount() {
+    this.subscription = squaredNumbers.subscribe(result => this.setState({currentNumber : result}));
+  }
 
-    </div>
-  );
+  componentWillUnmount() {
+    this.subscription.unsubscribe();
+  }
+
+  render() {
+    return (
+        <div className="App">
+        <h1> RxJS </h1>
+          <h4>{this.state.currentNumber}</h4>
+        </div>
+    );
+  }
 }
 
 export default App;
